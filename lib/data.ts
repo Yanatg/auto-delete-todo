@@ -1,5 +1,5 @@
 // lib/data.ts
-import { Item } from '@/lib/types'; // Import the type
+import { Item } from '@/lib/types';
 
 export const initialItems: Item[] = [
   { type: 'Fruit', name: 'Apple' },

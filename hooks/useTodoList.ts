@@ -1,18 +1,15 @@
 // hooks/useTodoList.ts
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Item } from '../lib/types'; // Adjust path if needed
+import { Item } from '@/lib/types';
 
 export function useTodoList(defaultItems: Item[]) {
-  // --- State Variables ---
+
   const [mainList, setMainList] = useState<Item[]>(defaultItems);
   const [fruitList, setFruitList] = useState<Item[]>([]);
   const [vegetableList, setVegetableList] = useState<Item[]>([]);
 
-  // --- Ref to store active timers ---
   const activeTimersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
-
-  // --- Function for Timer Callback Logic ---
   const executeAutoReturn = useCallback((itemToReturn: Item) => {
     console.log(`[Timer Callback] Executing auto-return for ${itemToReturn.name}`);
     activeTimersRef.current.delete(itemToReturn.name);
@@ -25,10 +22,8 @@ export function useTodoList(defaultItems: Item[]) {
         return prev;
     });
      console.log(`[Timer Callback] State updated for ${itemToReturn.name} auto-return.`);
-  }, []); // No dependencies needed
+  }, []);
 
-
-  // --- handleMoveToSide Handler ---
   const handleMoveToSide = useCallback((itemToMove: Item) => {
     setMainList(prev => prev.filter(item => item.name !== itemToMove.name));
     if (activeTimersRef.current.has(itemToMove.name)) {
@@ -44,10 +39,8 @@ export function useTodoList(defaultItems: Item[]) {
       setVegetableList(prev => [...prev, itemToMove]);
     }
      console.log(`Moved ${itemToMove.name} to side list. Timer ID ${timerId} stored in ref.`);
-  }, [executeAutoReturn]); // Depends on executeAutoReturn
+  }, [executeAutoReturn]);
 
-
-  // --- handleMoveBack Handler (Manual Click Only) ---
   const handleMoveBack = useCallback((itemToMoveBack: Item) => {
     console.log(`[Manual Click] Attempting to move back: ${itemToMoveBack.name}`);
     if (activeTimersRef.current.has(itemToMoveBack.name)) {
@@ -67,14 +60,10 @@ export function useTodoList(defaultItems: Item[]) {
        return prev;
     });
     console.log(`[Manual Click] State updates initiated for ${itemToMoveBack.name} manual return.`);
-  }, []); // No dependencies needed
+  }, []);
 
-
-  // --- Effect for Cleanup ---
   useEffect(() => {
-    // Get ref's current value when effect runs
     const timers = activeTimersRef.current;
-    // Return cleanup function
     return () => {
        console.log("Component unmounting. Clearing all active timers from ref...");
        timers.forEach((timerId, itemName) => {
@@ -83,9 +72,8 @@ export function useTodoList(defaultItems: Item[]) {
        });
        timers.clear();
     };
-  }, []); // Empty array ensures runs only on mount/unmount
+  }, []);
 
-  // Return the state and handlers needed by the UI component
   return {
     mainList,
     fruitList,
