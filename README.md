@@ -2,7 +2,7 @@
 
 A simple interactive list application built with Next.js, React, TypeScript, and Tailwind CSS. Items can be moved between columns, and they automatically return to the main list after a 5-second delay.
 
-visit the site https://auto-delete-todo-mocha.vercel.app/
+Visit the site https://auto-delete-todo-mocha.vercel.app/
 
 <img width="490" alt="image" src="https://github.com/user-attachments/assets/c6dc8c52-db11-4ae6-a7c5-937408e56edd" />
 
