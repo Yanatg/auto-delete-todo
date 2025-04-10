@@ -1,14 +1,9 @@
 // app/page.tsx
 'use client';
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React from 'react';
 import { initialItems } from '../lib/data';
 import { useTodoList } from '../hooks/useTodoList';
 
-
-interface Item {
-  type: 'Fruit' | 'Vegetable';
-  name: string;
-}
 
 export default function HomePage() {
   const {
